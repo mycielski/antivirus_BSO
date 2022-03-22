@@ -5,6 +5,6 @@
 #ifndef ANTIVIRUS_BSO_SHA256_H
 #define ANTIVIRUS_BSO_SHA256_H
 
-void fileSha256(const std::string &path);
+std::string fileSha256(const std::string &path);
 
 #endif //ANTIVIRUS_BSO_SHA256_H

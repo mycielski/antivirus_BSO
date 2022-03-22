@@ -11,7 +11,7 @@
 
 std::string& getFile(const std::string &path);
 
-void fileSha256(const std::string &path) {
+std::string fileSha256(const std::string &path) {
     std::string *buffer = &(getFile(path));
 
     std::array<unsigned char, SHA256_DIGEST_LENGTH> hash{};
@@ -25,7 +25,7 @@ void fileSha256(const std::string &path) {
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
         sprintf(&hex_output[i * 2], "%02x", hash[i]);
     }
-    fprintf(stdout, "%s\n", hex_output.data());
+    return hex_output.data();
 }
 
 std::string& getFile(const std::string &path) {
@@ -35,7 +35,7 @@ std::string& getFile(const std::string &path) {
     fp.open(path, std::ios::in);
 
     if (!(fp.is_open())) {
-        perror("Error opening file");
+        perror("Error opening File");
         exit(EXIT_FAILURE);
     } else {
         s ->reserve(1024);

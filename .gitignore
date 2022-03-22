@@ -113,7 +113,7 @@ fabric.properties
 # Editor-based Rest Client
 .idea/httpRequests
 
-# Android studio 3.1+ serialized cache file
+# Android studio 3.1+ serialized cache File
 .idea/caches/build_file_checksums.ser
 
 ### CLion Patch ###
@@ -138,7 +138,7 @@ fabric.properties
 .idea/**/markdown-navigator-enh.xml
 .idea/**/markdown-navigator/
 
-# Cache file creation bug
+# Cache File creation bug
 # See https://youtrack.jetbrains.com/issue/JBR-2257
 .idea/$
 
