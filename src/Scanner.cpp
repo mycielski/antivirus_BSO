@@ -3,13 +3,32 @@
 //
 
 #include "Scanner.h"
-#include "directory_searching/dirSearch.h"
+#include "database/Db.h"
+#include "file/file.h"
 
 #include <utility>
+#include <iostream>
+#include <list>
+#include <filesystem>
 
-Scanner::Scanner(std::string path, std::string hashbase, HashType hashType) : path(std::move(path)),
-                                                                                            hashbase(std::move(hashbase)),
-                                                                                            hashType(hashType) {}
+namespace fs = std::filesystem;
+
+
+Scanner::Scanner(std::string path, std::string dbPath, HashType hashType) : database(dbPath){
+    this->path = path;
+    this->hashType = hashType;
+}
+
+std::list<File> Scanner::dirSearch(std::string& path) {
+    std::list<File> files;
+    for (const fs::directory_entry& entry : fs::directory_iterator(path)) {
+        if (entry.is_regular_file()) {
+            files.emplace_back(File(entry.path().string()));
+        }
+    }
+    return files;
+}
+
 
 int Scanner::scan() {
     if (path.empty()) {
@@ -17,9 +36,14 @@ int Scanner::scan() {
         return -1;
     }
     auto files = dirSearch(path);
-
     for (auto file : files){
-
+        file.setMalicious(database.checkHash(file.getSha256()));
+        if (file.isMalicious()) {
+            std::cout << file.getPath() << " is malicious. Its hash is: " << file.getSha256() << std::endl;
+        }
     }
     return 0;
 }
+
+
+

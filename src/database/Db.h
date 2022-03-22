@@ -9,14 +9,15 @@
 #include <string>
 #include <vector>
 
-class db {
+class Db {
 public:
-    db(const std::string &path);
+    Db(std::string path);
+
+    bool checkHash(std::string hash);
 
 private:
-    std::string path;
     std::vector<std::string> hashes;
-
+    std::vector<std::string> loadHashes(std::string& path);
 };
 
 
