@@ -8,27 +8,49 @@
 #include <openssl/sha.h>
 #include "sha256.h"
 #include <array>
+#include <sstream>
+#include <iomanip>
+#include <cstring>
 
-std::string& getFile(const std::string &path);
+std::string &getFile(const std::string &path);
 
 std::string fileSha256(const std::string &path) {
-    std::string *buffer = &(getFile(path));
+    std::ifstream fp(path, std::ios::in | std::ios::binary);
 
-    std::array<unsigned char, SHA256_DIGEST_LENGTH> hash{};
-
-    SHA256_CTX sha256;
-    SHA256_Init(&sha256);
-    SHA256_Update(&sha256, buffer->c_str(), buffer->size());
-    SHA256_Final(hash.data(), &sha256);
-    delete buffer;
-    std::array<char, SHA_DIGEST_LENGTH * 2 + 1> hex_output{};
-    for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
-        sprintf(&hex_output[i * 2], "%02x", hash[i]);
+    if (not fp.good()) {
+        std::ostringstream os;
+        os << "Cannot open \"" << path << "\": " << std::strerror(errno) << ".";
+        throw std::runtime_error(os.str());
     }
-    return hex_output.data();
+
+    constexpr const std::size_t buffer_size{1 << 12};
+    char buffer[buffer_size];
+
+    unsigned char hash[SHA256_DIGEST_LENGTH] = {0};
+
+    SHA256_CTX ctx;
+    SHA256_Init(&ctx);
+
+    while (fp.good()) {
+        fp.read(buffer, buffer_size);
+        SHA256_Update(&ctx, buffer, fp.gcount());
+    }
+
+    SHA256_Final(hash, &ctx);
+    fp.close();
+
+    std::ostringstream os;
+    os << std::hex << std::setfill('0');
+
+    for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
+        os << std::setw(2) << static_cast<unsigned int>(hash[i]);
+    }
+
+    return os.str();
+
 }
 
-std::string& getFile(const std::string &path) {
+std::string &getFile(const std::string &path) {
     auto *s = new std::string;
 
     std::fstream fp;
@@ -38,10 +60,10 @@ std::string& getFile(const std::string &path) {
         perror("Error opening File");
         exit(EXIT_FAILURE);
     } else {
-        s ->reserve(1024);
+        s->reserve(1024);
         std::string line;
         while (fp >> line) {
-            s -> append(line);
+            s->append(line);
         }
     }
     fp.close();

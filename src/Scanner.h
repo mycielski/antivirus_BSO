@@ -20,6 +20,12 @@ public:
     Scanner(std::string path, std::string databasePath, HashType hashType);
     int scan();
 
+    void setPath(const std::string &path);
+
+    void setDatabase(const Db &database);
+
+    void setHashType(HashType hashType);
+
 private:
     std::string path;
     Db database;
