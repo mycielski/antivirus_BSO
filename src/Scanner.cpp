@@ -15,25 +15,20 @@
 namespace fs = std::filesystem;
 
 
-Scanner::Scanner(std::string path, std::string dbPath, HashType hashType) : database(dbPath){
+Scanner::Scanner(std::string path, std::string dbPath, HashType hashType) : database(dbPath) {
     this->path = path;
     this->hashType = hashType;
 }
 
-std::list<File> Scanner::dirSearch(std::string& path) {
+std::list<File> Scanner::dirSearch(std::string &path) {
     std::list<File> files;
-    for (const fs::directory_entry& entry : fs::recursive_directory_iterator(path)) {
+    for (const fs::directory_entry &entry: fs::recursive_directory_iterator(path)) {
         if (entry.is_regular_file()) {
             files.emplace_back(File(entry.path().string()));
         }
     }
     return files;
 }
-
-//int chmod(const char *path, mode_t mode) {
-//
-//    return 0;
-//}
 
 
 int Scanner::scan() {
@@ -48,7 +43,7 @@ int Scanner::scan() {
     }
     auto files = dirSearch(path);
     int malicious_files = 0;
-    for (auto file : files){
+    for (auto file: files) {
         file.setMalicious(database.checkHash(file.getSha256()));
         if (file.isMalicious()) {
             std::cout << file.getPath() << " is malicious. Its hash is: " << file.getSha256() << std::endl;
