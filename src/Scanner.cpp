@@ -24,16 +24,19 @@ Scanner::Scanner(std::string path, std::string dbPath, HashType hashType) : data
 }
 
 std::list<File> Scanner::dirSearch(std::string &path) {
-    std::cout << "File discovery... " << std::endl;
     std::list<File> files;
     for (const fs::directory_entry &entry: fs::recursive_directory_iterator(path)) {
-        if (entry.is_regular_file()) {
-            try { files.emplace_back(File(entry.path().string())); } catch (std::exception &e) {
-                std::cout << "Error: " << e.what() << std::endl;
+        if (entry.is_regular_file() and entry.path() != "/swapfile" and
+            not std::regex_match(entry.path().string(), std::regex("^\\/proc.*"))) {
+            try {
+                files.emplace_back(File(entry.path().string()));
+                std::cout << std::flush << "\rScanning " << files.size() << " files... ";
+            } catch (std::exception &e) {
+                std::cout << std::flush << "\rError: " << e.what() << std::endl;
             }
         }
     }
-    std::cout << "Done." << std::endl;
+    std::cout << "\nScan complete." << std::endl;
     return files;
 }
 
@@ -82,9 +85,9 @@ int Scanner::scan() {
     }
     auto files = dirSearch(path);
     int malicious_files = 0;
-    std::cout << "Scanning " << files.size() << " files..." << std::endl;
+//    std::cout << "Scanning " << files.size() << " files..." << std::endl;
     for (auto file: files) {
-        std::cout << "Scanning " << file.getPath() << "..." << std::endl;
+//        std::cout << "Scanning " << file.getPath() << "..." << std::endl;
         file.setMalicious(database.checkHash(file.getSha256()));
         if (file.isMalicious()) [[unlikely]] {
             std::cout << file.getPath() << " is malicious. Its hash is: " << file.getSha256() << std::endl;
@@ -99,7 +102,8 @@ int Scanner::scan() {
             malicious_files++;
         }
     }
-    std::cout << "Scanning finished. " << malicious_files << " files are malicious." << std::endl;
+    std::cout << "Scanning finished. " << malicious_files
+              << " files are malicious. They were moved to the quarantine directory." << std::endl;
     return malicious_files;
 }
 
