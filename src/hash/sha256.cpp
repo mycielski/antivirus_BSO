@@ -8,7 +8,6 @@
 #include <openssl/sha.h>
 #include "sha256.h"
 #include <array>
-#include <sstream>
 #include <iomanip>
 #include <cstring>
 
@@ -42,8 +41,8 @@ std::string fileSha256(const std::string &path) {
     std::ostringstream os;
     os << std::hex << std::setfill('0');
 
-    for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
-        os << std::setw(2) << static_cast<unsigned int>(hash[i]);
+    for (unsigned char i : hash) {
+        os << std::setw(2) << static_cast<unsigned int>(i);
     }
 
     return os.str();
