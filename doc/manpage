@@ -33,6 +33,11 @@ Malicious files have their x permission unset.
 You can exit the program while it is running by passing a SIGINT
 (Ctrl+C).
 It will exit gracefully.
+.SH HASHING ALGORITHM
+.PP
+File digest is generated with the SHA 256 algorithm provided by OpenSSL.
+The choice to use this algorithm comes from my experience with
+VirusTotal, as it is the type of hash VT accepts for lookups.
 .SH OPTIONS
 .PP
 \f[B]antivirus_BSO\f[R] does not take any options.
