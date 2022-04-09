@@ -5,9 +5,7 @@
 #include <thread>
 #include <csignal>
 
-// catch signals
 void signal_callback_handler(int signum) {
-//    std::cout << "Caught signal " << signum << std::endl;
     perror("\nCaught interrupt signal. Exiting... ");
     fcloseall();
     exit(signum);
