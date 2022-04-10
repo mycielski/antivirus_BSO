@@ -21,7 +21,7 @@
 antivirus_BSO - write this to pass this class
 .SH SYNOPSIS
 .PP
-\f[B]antivirus_BSO\f[R]
+\f[B]antivirus_BSO\f[R] [file_with_hashes] [path_to_scan]
 .SH DESCRIPTION
 .PP
 \f[B]antivirus_BSO\f[R] scans files and calculates their SHA256
@@ -38,6 +38,16 @@ It will exit gracefully.
 File digest is generated with the SHA 256 algorithm provided by OpenSSL.
 The choice to use this algorithm comes from my experience with
 VirusTotal, as it is the type of hash VT accepts for lookups.
+.SH DIRECTORY TRAVERSAL
+.PP
+The program can take a path of a file to scan but also a path to a
+directory.
+If the latter is the case then the program will recursively search
+through the directory and its subdirectories to find all files in them.
+There are limitations to this however.
+Anything in \f[I]/proc\f[R], \f[I]/dev\f[R] will be skipped, and so will
+a \f[I]/swapfile\f[R], if it exists.
+\f[B]Warning:\f[R] the program does \f[I]not\f[R] follow symlinks!
 .SH OPTIONS
 .PP
 \f[B]antivirus_BSO\f[R] does not take any options.
