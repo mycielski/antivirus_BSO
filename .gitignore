@@ -168,3 +168,4 @@ antivirus_BSO
 avbso
 ./examples/symlinks
 examples/symlinks/
+cleanup.sh
