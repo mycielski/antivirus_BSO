@@ -14,18 +14,17 @@
 . ftr VB CB
 . ftr VBI CBI
 .\}
-.TH "antivirus_BSO" "1" "April 2022" "avbso 1.0.0" ""
+.TH "AVBSO" "1" "April 2022" "" ""
 .hy
 .SH NAME
 .PP
-antivirus_BSO - write this to pass this class
+\f[B]avbso\f[R] - write this to pass this class
 .SH SYNOPSIS
 .PP
-\f[B]antivirus_BSO\f[R] [file_with_hashes] [path_to_scan]
+\f[B]avbso\f[R] [file_with_hashes] [path_to_scan]
 .SH DESCRIPTION
 .PP
-\f[B]antivirus_BSO\f[R] scans files and calculates their SHA256
-checksums.
+\f[B]avbso\f[R] scans files and calculates their SHA256 checksums.
 If a file\[cq]s digest matches one found in the hashes database (passed
 as the first cli argument of the program) that file is flagged as
 malicious and moved to quarantine.
@@ -50,7 +49,7 @@ a \f[I]/swapfile\f[R], if it exists.
 \f[B]Warning:\f[R] the program does \f[I]not\f[R] follow symlinks!
 .SH OPTIONS
 .PP
-\f[B]antivirus_BSO\f[R] does not take any options.
+\f[B]avbso\f[R] does not take any options.
 .SH BUGS
 .PP
 No known bugs.

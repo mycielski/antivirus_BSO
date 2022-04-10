@@ -26,7 +26,7 @@ Scanner::Scanner(std::string path, std::string dbPath, HashType hashType) : data
 std::list<File> Scanner::dirSearch(std::string &path) {
     std::list<File> files;
     for (const fs::directory_entry &entry: fs::recursive_directory_iterator(path)) {
-        std::cout << entry.path() << std::endl;
+//        std::cout << entry.path() << std::endl;
         try {
             if (entry.path() == std::string("/swapfile") or
                 entry.path().string().substr(0, 5) == std::string("/proc") or

@@ -13,7 +13,7 @@ void signal_callback_handler(int signum) {
 
 int main(int argc, char *argv[]) {
     if (argc != 3) {
-        std::cout << "Usage: antivirus_BSO <hashes_list> <path_to_scan>" << std::endl;
+        std::cout << "Usage: avbso <hashes_list> <path_to_scan>" << std::endl;
         return 1;
     }
     auto start = std::chrono::steady_clock::now();
@@ -24,14 +24,14 @@ int main(int argc, char *argv[]) {
     sigIntHandler.sa_flags = 0;
     sigaction(SIGINT, &sigIntHandler, nullptr);
 
-    auto path = argv[2];
+    auto scanPath = argv[2];
     auto dbPath = argv[1];
     auto hashType = HashType::SHA256;
     create_quarantine_dir();
     std::cout << "Reading hashes from " << dbPath << "... ";
-    Scanner scanner(path, dbPath, hashType);
+    Scanner scanner(scanPath, dbPath, hashType);
     std::cout << "Done." << std::endl;
-    std::cout << "Commencing scan of " << path << std::endl;
+    std::cout << "Commencing scan of " << scanPath << std::endl;
     scanner.scan();
     fcloseall();
     auto end = std::chrono::steady_clock::now();
@@ -43,4 +43,5 @@ int main(int argc, char *argv[]) {
     }
     return 0;
 }
+
 
