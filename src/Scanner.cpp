@@ -26,15 +26,22 @@ Scanner::Scanner(std::string path, std::string dbPath, HashType hashType) : data
 std::list<File> Scanner::dirSearch(std::string &path) {
     std::list<File> files;
     for (const fs::directory_entry &entry: fs::recursive_directory_iterator(path)) {
-        if (entry.is_regular_file() and entry.path() != "/swapfile" and
-            not std::regex_match(entry.path().string(), std::regex("^\\/proc.*"))) {
-            try {
+        std::cout << entry.path() << std::endl;
+        try {
+            if (entry.path() == std::string("/swapfile") or
+                entry.path().string().substr(0, 5) == std::string("/proc") or
+                entry.path().string().substr(0, 4) == std::string("/dev/")) {
+                continue;
+            } else if (entry.is_regular_file()) {
+
                 files.emplace_back(File(entry.path().string()));
                 std::cout << std::flush << "\rScanning " << files.size() << " files... ";
-            } catch (std::exception &e) {
-                std::cout << std::flush << "\rError: " << e.what() << std::endl;
+
             }
+        } catch (const std::exception &e) {
+            std::cerr << "Error: " << e.what() << std::endl;
         }
+
     }
     std::cout << "\nScan complete." << std::endl;
     return files;

@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
     sigIntHandler.sa_flags = 0;
     sigaction(SIGINT, &sigIntHandler, nullptr);
 
-    auto path = "/";//argv[2];
+    auto path = argv[2];
     auto dbPath = argv[1];
     auto hashType = HashType::SHA256;
     create_quarantine_dir();
