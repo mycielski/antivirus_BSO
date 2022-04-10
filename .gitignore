@@ -164,9 +164,10 @@ _deps
 *-prefix/
 
 # End of https://www.toptal.com/developers/gitignore/api/clion,cmake,c++
+
+### Project specific ###
 antivirus_BSO
 avbso
-./examples/symlinks
 examples/symlinks/
 cleanup.sh
-./doc/manpage
+doc/manpage

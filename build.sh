@@ -12,7 +12,7 @@ echo "Creating cleanup script "
 echo '''#!/bin/bash''' > ./cleanup.sh
 echo '''rm -rf ./build''' >> ./cleanup.sh
 echo '''rm -rf ./cmake-build-debug''' >> ./cleanup.sh
-echo '''rm -rf ./CmakeFiles''' >> ./cleanup.sh
+echo '''rm -rf ./CMakeFiles''' >> ./cleanup.sh
 echo '''rm CMakeCache.txt''' >> ./cleanup.sh
 echo '''rm cmake_install.cmake''' >> ./cleanup.sh
 echo '''rm Makefile''' >> ./cleanup.sh
