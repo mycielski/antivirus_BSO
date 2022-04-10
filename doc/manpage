@@ -44,9 +44,9 @@ directory.
 If the latter is the case then the program will recursively search
 through the directory and its subdirectories to find all files in them.
 There are limitations to this however.
-Anything in \f[I]/proc\f[R], \f[I]/dev\f[R] will be skipped, and so will
-a \f[I]/swapfile\f[R], if it exists.
-\f[B]Warning:\f[R] the program does \f[I]not\f[R] follow symlinks!
+Anything in /proc, /dev will be skipped, and so will a /swapfile, if it
+exists.
+\f[B]Warning:\f[R] the program \f[I]does\f[R] follow symlinks!
 .SH OPTIONS
 .PP
 \f[B]avbso\f[R] does not take any options.
