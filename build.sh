@@ -16,5 +16,6 @@ echo '''rm -rf ./CMakeFiles''' >> ./cleanup.sh
 echo '''rm CMakeCache.txt''' >> ./cleanup.sh
 echo '''rm cmake_install.cmake''' >> ./cleanup.sh
 echo '''rm Makefile''' >> ./cleanup.sh
+echo '''rm doc/manpage''' >> ./cleanup.sh
 echo '''rm cleanup.sh''' >> ./cleanup.sh
 chmod +x cleanup.sh
