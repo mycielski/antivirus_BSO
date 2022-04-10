@@ -166,3 +166,5 @@ _deps
 # End of https://www.toptal.com/developers/gitignore/api/clion,cmake,c++
 antivirus_BSO
 avbso
+./examples/symlinks
+examples/symlinks/
