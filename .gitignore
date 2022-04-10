@@ -169,3 +169,4 @@ avbso
 ./examples/symlinks
 examples/symlinks/
 cleanup.sh
+./doc/manpage
