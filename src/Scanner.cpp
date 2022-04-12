@@ -25,9 +25,8 @@ Scanner::Scanner(std::string path, std::string dbPath, HashType hashType) : data
 std::list<File> Scanner::dirSearch(std::string &path) {
     std::list<File> files;
     for (const fs::directory_entry &entry: fs::recursive_directory_iterator(path)) {
-//        std::cout << entry.path() << std::endl;
         try {
-            if (entry.path() == std::string("/swapfile") or
+            if (fs::is_symlink(entry.path()) or entry.path() == std::string("/swapfile") or
                 entry.path().string().substr(0, 5) == std::string("/proc") or
                 entry.path().string().substr(0, 4) == std::string("/dev/")) {
                 continue;
@@ -47,7 +46,7 @@ std::list<File> Scanner::dirSearch(std::string &path) {
 }
 
 std::string quarantine_instance_setup() {
-    // create new directory with its name bein the date
+    // create new directory with its name being the date
     auto t = std::time(nullptr);
     // create a string representation of the time in format YYYY-MM-DD--HH-MM-SS
     auto tm = *std::localtime(&t);

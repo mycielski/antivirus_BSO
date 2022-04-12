@@ -4,6 +4,7 @@
 #include <chrono>
 #include <thread>
 #include <csignal>
+#include <cstring>
 
 void signal_callback_handler(int signum) {
     perror("\nCaught interrupt signal. Exiting... ");
@@ -31,6 +32,12 @@ int main(int argc, char *argv[]) {
     std::cout << "Reading hashes from " << dbPath << "... ";
     Scanner scanner(scanPath, dbPath, hashType);
     std::cout << "Done." << std::endl;
+    // if path to scan is "/" display warning and sleep for 5 seconds
+    if (strcmp(scanPath, "/") == 0) {
+        std::cout << "WARNING: Scanning root directory. This may take a VERY long time." << std::endl;
+        std::cout << "Press Ctrl+C to exit. The scan will start in 5 seconds otherwise." << std::endl;
+        std::this_thread::sleep_for(std::chrono::seconds(5));
+    }
     std::cout << "Commencing scan of " << scanPath << std::endl;
     scanner.scan();
     fcloseall();

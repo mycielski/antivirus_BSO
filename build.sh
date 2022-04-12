@@ -1,6 +1,6 @@
 #!/bin/bash
 cd ./doc || exit
-./build_manpage.sh
+./build_manpage.sh quiet
 cd ..
 cmake . -DCMAKE_BUILD_TYPE=Release
 make || exit
