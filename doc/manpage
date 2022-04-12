@@ -34,7 +34,8 @@ You can exit the program while it is running by passing a SIGINT
 It will exit gracefully.
 .SH HASHING ALGORITHM
 .PP
-File digest is generated with the SHA 256 algorithm provided by OpenSSL.
+File digest is generated with the SHA 256 algorithm provided by the
+OpenSSL library.
 The choice to use this algorithm comes from my experience with
 VirusTotal, as it is the type of hash VT accepts for lookups.
 .SH DIRECTORY TRAVERSAL

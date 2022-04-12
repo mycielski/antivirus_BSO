@@ -10,12 +10,14 @@ mv ./antivirus_BSO ./build/release/avbso
 
 echo "Creating cleanup script "
 echo '''#!/bin/bash''' > ./cleanup.sh
-echo '''rm -rf ./build''' >> ./cleanup.sh
-echo '''rm -rf ./cmake-build-debug''' >> ./cleanup.sh
-echo '''rm -rf ./CMakeFiles''' >> ./cleanup.sh
-echo '''rm CMakeCache.txt''' >> ./cleanup.sh
-echo '''rm cmake_install.cmake''' >> ./cleanup.sh
-echo '''rm Makefile''' >> ./cleanup.sh
-echo '''rm doc/manpage''' >> ./cleanup.sh
-echo '''rm cleanup.sh''' >> ./cleanup.sh
+{
+  echo "rm -rf ./build"
+  echo "rm -rf ./cmake-build-debug"
+  echo "rm -rf ./CMakeFiles"
+  echo "rm CMakeCache.txt"
+  echo "rm cmake_install.cmake"
+  echo "rm Makefile"
+#  echo "rm doc/manpage"
+  echo "rm cleanup.sh"
+} >> ./cleanup.sh
 chmod +x cleanup.sh
