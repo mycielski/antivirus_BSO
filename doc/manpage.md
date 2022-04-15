@@ -33,6 +33,9 @@ Upon discovery, a malicious file is stripped of its permissions (apart from read
 Before building the program make sure you have **cmake** available on your system. **avbso** comes with a handy build script. Once you clone the repository to your machine just run ```build.sh``` and the resulting binary will be placed in ```build/release/avbso```. You may also clean up any and all artifacts by running ```cleanup.sh```.
 During building **pandoc** is used for rendering the manpage in GNU Troff format. This step is not essential, especially since **avbso** comes with a pre-rendered manpage. If you would like to only render the manpage you can do so by running doc/build_manpage.sh.
 
+# CODE STYLE
+**clang-format --style=Google** was used to format the source. A tiny bit of effort was made for the code to conform to Google's style guide.
+
 # DOCUMENTATION
 All the documentation is available as a manpage. You can see it by running ```man doc/manpage```. Alternatively, you can use your markdown renderer of choice with ```doc/manpage.md```.
 

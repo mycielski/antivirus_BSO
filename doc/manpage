@@ -103,6 +103,11 @@ This step is not essential, especially since \f[B]avbso\f[R] comes with
 a pre-rendered manpage.
 If you would like to only render the manpage you can do so by running
 doc/build_manpage.sh.
+.SH CODE STYLE
+.PP
+\f[B]clang-format \[en]style=Google\f[R] was used to format the source.
+A tiny bit of effort was made for the code to conform to Google\[cq]s
+style guide.
 .SH DOCUMENTATION
 .PP
 All the documentation is available as a manpage.
