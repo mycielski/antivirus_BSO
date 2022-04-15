@@ -23,6 +23,10 @@ Scanner::Scanner(std::string path, std::string dbPath, HashType hashType) : data
 }
 
 std::list<File> Scanner::dirSearch(std::string &path) {
+    // convert path to absolute if it is not already absolute
+    if (path.front() != '/') {
+        path = fs::absolute(path).string();
+    }
     std::list<File> files;
     for (const fs::directory_entry &entry: fs::recursive_directory_iterator(path)) {
         try {
@@ -66,7 +70,7 @@ std::string quarantine_instance_setup() {
 int Scanner::scan() {
     std::cout << "Creating quarantine directory for this scan..." << std::endl;
     std::string quarantine_path = quarantine_instance_setup();
-    std::cout << "Quarantine directory created at " << QUARANTINE_DIRECTORY + quarantine_path << std::endl;
+    std::cout << "Quarantine directory created at " << quarantine_path << std::endl;
     if (path.empty()) [[unlikely]] {
         perror("Empty path");
         exit(EXIT_FAILURE);
@@ -83,16 +87,13 @@ int Scanner::scan() {
         // create a symlink from discovered malicious file to this scan's quarantine directory
         if (symlink(file.getPath().c_str(), (quarantine_path + file.getSha256()).c_str()) == -1) {
             perror("Error creating symlink");
-            exit(EXIT_FAILURE);
         }
         std::cout << "Done. " << std::endl;
         return 1;
     }
     auto files = dirSearch(path);
     int malicious_files = 0;
-//    std::cout << "Scanning " << files.size() << " files..." << std::endl;
     for (auto file: files) {
-//        std::cout << "Scanning " << file.getPath() << "..." << std::endl;
         file.setMalicious(database.checkHash(file.getSha256()));
         if (file.isMalicious()) [[unlikely]] {
             std::cout << file.getPath() << " is malicious. Its hash is: " << file.getSha256() << std::endl;
@@ -101,7 +102,6 @@ int Scanner::scan() {
             // create a symlink from discovered malicious file to this scan's quarantine directory
             if (symlink(file.getPath().c_str(), (quarantine_path + file.getSha256()).c_str()) == -1) {
                 perror("Error creating symlink");
-                exit(EXIT_FAILURE);
             }
             std::cout << "Done. " << std::endl;
             malicious_files++;
