@@ -6,16 +6,15 @@
 
 #include <filesystem>
 
-bool check_if_quarantine_dir_exists() {
-    if (std::filesystem::exists(QUARANTINE_DIRECTORY) && std::filesystem::is_directory(QUARANTINE_DIRECTORY))
-        return true;
-    return false;
+bool CheckIfQuarantineDirExists() {
+  if (std::filesystem::exists(kQuarantineDirectory) &&
+      std::filesystem::is_directory(kQuarantineDirectory))
+    return true;
+  return false;
 }
 
-int create_quarantine_dir() {
-    if (check_if_quarantine_dir_exists())
-        return 0;
-    if (std::filesystem::create_directory(QUARANTINE_DIRECTORY))
-        return 0;
-    return -1;
+int CreateQuarantineDir() {
+  if (CheckIfQuarantineDirExists()) return 0;
+  if (std::filesystem::create_directory(kQuarantineDirectory)) return 0;
+  return -1;
 }

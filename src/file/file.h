@@ -5,28 +5,24 @@
 #ifndef ANTIVIRUS_BSO_FILE_H
 #define ANTIVIRUS_BSO_FILE_H
 
-
 #include <string>
 
 class File {
-public:
-    File(const std::string &path);
+ public:
+  File(const std::string &path);
 
-    const std::string &getSha256() const;
+  const std::string &GetSha256() const;
 
-    void setMalicious(bool malicious);
+  void SetMalicious(bool malicious);
 
-    bool isMalicious() const;
+  bool IsMalicious() const;
 
-    const std::string &getPath() const;
+  const std::string &GetPath() const;
 
-private:
-    std::string path;
-    std::string sha256;
-    bool malicious;
-
-
+ private:
+  std::string path;
+  std::string sha256;
+  bool malicious;
 };
 
-
-#endif //ANTIVIRUS_BSO_FILE_H
+#endif  // ANTIVIRUS_BSO_FILE_H

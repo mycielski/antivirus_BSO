@@ -3,26 +3,18 @@
 //
 
 #include "file.h"
+
 #include "../hash/sha256.h"
 
 File::File(const std::string &path) : path(path) {
-    this -> path = path;
-    this -> sha256 = fileSha256(path);
+  this->path = path;
+  this->sha256 = FileSha256(path);
 }
 
-const std::string &File::getSha256() const {
-    return sha256;
-}
+const std::string &File::GetSha256() const { return sha256; }
 
-void File::setMalicious(bool malicious) {
-    File::malicious = malicious;
-}
+void File::SetMalicious(bool malicious) { File::malicious = malicious; }
 
-bool File::isMalicious() const {
-    return malicious;
-}
+bool File::IsMalicious() const { return malicious; }
 
-const std::string &File::getPath() const {
-    return path;
-}
-
+const std::string &File::GetPath() const { return path; }
