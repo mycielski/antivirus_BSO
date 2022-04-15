@@ -38,6 +38,13 @@ File digest is generated with the SHA 256 algorithm provided by the
 OpenSSL library.
 The choice to use this algorithm comes from my experience with
 VirusTotal, as it is the type of hash VT accepts for lookups.
+The digests are generated chunk-after-chunk (without loading whole file
+to memory) so even large files can be handled.
+.SH HASHES DATABASE
+.PP
+When using the program a file with hashes must be provided.
+The format of the file must be ASCII text, one hash per line, no
+whitespace.
 .SH DIRECTORY TRAVERSAL
 .PP
 The program can take a path of a file to scan but also a path to a
@@ -48,11 +55,97 @@ There are limitations to this however.
 Anything in /proc, /dev will be skipped, and so will a /swapfile, if it
 exists.
 \f[B]Warning:\f[R] the program \f[I]does not\f[R] follow symlinks!
-.SH OPTIONS
 .PP
-\f[B]avbso\f[R] does not take any options.
+Everything in directories /proc, /dev, and the /swapfile won\[cq]t be
+scanned.
+There is currently no way of overriding this mechanism, short of
+recompiling the program.
+.SH QUARANTINE DIRECTORY
+.PP
+\f[B]avbso\f[R] uses /var/tmp/quarantine to store malicious files.
+The reasoning behind this choice is that once a malicious file is
+discovered then the user might want to preserve it for forensics
+purposes.
+By default systemd based distros will keep the contents of quarantine
+for 30 days.
+It is more than enough time to decide what should be done with each of
+the files.
+In /var/tmp/quarantine a new directory is created for each scan.
+The new directory is named yyyy-mm-dd_hh-mm-ss to indicate when the scan
+took place.
+If a scan took less than a second then the program will wait until a
+second passed before exiting.
+That is done to prevent launching two scans which would generate the
+same timestamp.
+Inside of a scan-directory are soft symlinks to malicious files.
+The names of the symlinks are the files\[cq] SHA256 digests.
+If the scan-directory is empty then it means \f[B]no\f[R] malicious
+files were found.
+.SH QUARANTINE MECHANISM
+.PP
+Upon discovery, a malicious file is stripped of its permissions (apart
+from read).
+That way it can be investigated but any code it may contain won\[cq]t be
+executed.
+.SH BUILDING
+.PP
+Before building the program make sure you have \f[B]cmake\f[R] available
+on your system.
+\f[B]avbso\f[R] comes with a handy build script.
+Once you clone the repository to your machine just run
+\f[V]build.sh\f[R] and the resulting binary will be placed in
+\f[V]build/release/avbso\f[R].
+You may also clean up any and all artifacts by running
+\f[V]cleanup.sh\f[R].
+During building \f[B]pandoc\f[R] is used for rendering the manpage in
+GNU Troff format.
+This step is not essential, especially since \f[B]avbso\f[R] comes with
+a pre-rendered manpage.
+If you would like to only render the manpage you can do so by running
+doc/build_manpage.sh.
+.SH DOCUMENTATION
+.PP
+All the documentation is available as a manpage.
+You can see it by running \f[V]man doc/manpage\f[R].
+Alternatively, you can use your markdown renderer of choice with
+\f[V]doc/manpage.md\f[R].
+.SH EXAMPLES
+.PP
+The program comes with an example.
+Run \f[V]avbso example/hashes ./\f[R] to see it work on a dummy
+malicious file and a simple list of hashes.
+All the testing of this program was done on a live Arch Linux system
+with 5.17.2-arch3-1.
+.SH POSSIBLE IMPROVEMENTS
+.SS Hash storage
+.PP
+Currently the program accepts hashes as strings.
+This is inefficient, since hashes are just 256 bit numbers.
+If the hashes were to be treated as numbers it would allow for optimized
+storage and searching.
+.SS CLI
+.PP
+The program could also take some CLI options.
+For example it could feature a \[lq]dry run\[rq] option which would scan
+files and inform if any malicious ones were found, but not quarantine
+them.
+.SS Symlinks handling
+.PP
+Currently symlinks are being ignored to prevent loops or unexpected
+growth of scan times.
+A more robust antivirus solution would handle symlinks the way its user
+explicitly states it should be done.
+.SS Code style
+.PP
+I am not a programmer.
+And it shows.
 .SH BUGS
 .PP
 No known bugs.
+.SH AFTERWORD
+.PP
+This project was great and I enjoyed doing it.
+I haven\[cq]t used C++ before but I really like it now.
+I learned new things about Linux, which is marvelous.
 .SH AUTHORS
 Tomasz Mycielski.
